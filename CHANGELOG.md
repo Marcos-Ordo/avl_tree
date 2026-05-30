@@ -1,5 +1,5 @@
 # Revision history for avl-tree
 
-## 0.1.0.0 -- YYYY-mm-dd
+## 0.1.0.0 -- 2026-05-30
 
-* First version. Released on an unsuspecting world.
+* First finished. Released on an unsuspecting world.
