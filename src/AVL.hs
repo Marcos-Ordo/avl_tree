@@ -25,10 +25,11 @@ instance Foldable AVL where
 
 {-
  INV.REP.: Siendo T el conjunto de AVLs posibles y A el conjunto de elementos para esos AVLs:
-    * ∀t∈T: esNodeA t => (element . leftTree)  t <= element t 
-    * ∀t∈T: esNodeA t => (element . rightTree) t >  element t
+    * ∀t∈T: esNodeA t => (element $ leftTree  t) <= element t 
+    * ∀t∈T: esNodeA t => (element $ rightTree t) >  element t
     * ∀t∈T: esNodeA t => diff t < 2
-    * ∀t∈T,∃a∈A: (not . esNodeA) t => (height . insertAVL a) t == 1
+    * ∀t∈T,∃a∈A: (not . esNodeA) t => (height $ insertAVL a t) == 1
+    * ∀t∈T: esNodeA t => height t == max (height $ leftTree t) (height $ rightTree t) + 1
 
     DEFS:
     esNodeA :: Ord a => AVL a -> Bool
@@ -197,7 +198,7 @@ semiRotateLeft EmptyA            = error "It makes no sense to semi rotate an Em
 semiRotateLeft (NodeA x ti td h) = NodeA (element ti) (leftTree ti) (NodeA x (rightTree ti) td (height ti)) h
 
 bubbleUpLeft :: Ord a => a -> AVL a -> AVL a -> Int -> AVL a
-bubbleUpLeft _ EmptyA              _  _ = error "It makes no sense to bubble up an EmptyA!"
+bubbleUpLeft _ EmptyA              __ _ = error "It makes no sense to bubble up an EmptyA!"
 bubbleUpLeft x (NodeA y ti' td' _) td h = NodeA y ti' (redo x td' td) (h-1)
 
 bubbleUpRight :: Ord a => a -> AVL a -> AVL a -> Int -> AVL a
