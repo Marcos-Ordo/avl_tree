@@ -146,7 +146,7 @@ smallest (NodeA x ti     td h) = let (y, t) = smallest ti
                                  in (y, NodeA x t td h)
 
 belongsAVL _ EmptyA            = False
-belongsAVL x (NodeA y ti td _) = x == y || belongsAVL x ti || belongsAVL x td
+belongsAVL x (NodeA y ti td _) = x == y || if x > y then belongsAVL x td else belongsAVL x ti
 
 appendAVLs EmptyA t            = t
 appendAVLs (NodeA x ti td _) t = insertAVL x (appendAVLs ti (appendAVLs td t))
