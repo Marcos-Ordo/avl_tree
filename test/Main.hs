@@ -13,7 +13,7 @@ check :: String -> AVL Int -> IO ()
 check label t = 
     do putChunk $ if isBalanced t then "[OK] " & fore green else "[FAIL] " & fore red
        putStrLn label 
-       -- putStrLn $ (("debug: " ++) . show) t
+       putStrLn $ (("debug: " ++) . show) t
 
 test01_whenInserting_CheckSingleRotations :: IO ()
 test01_whenInserting_CheckSingleRotations =

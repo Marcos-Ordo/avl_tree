@@ -186,26 +186,26 @@ singleBalance t@(NodeA x ti td h)
         if (height . leftTree) td <= (height . rightTree) td
         then bubbleUpRight x ti td h
         else bubbleUpRight x ti (semiRotateLeft td) h
-    | otherwise = error "It makes no sense to get here! you should've gotten inside a body with the is balanced question!"
+    | otherwise = error "It makes no sense to get here! you should've gotten inside a body before!"
 
 semiRotateRight :: Ord a => AVL a -> AVL a
 semiRotateRight EmptyA            = error "It makes no sense to semi rotate an EmptyA!"
-semiRotateRight (NodeA x ti td h) = NodeA (element td) (leftTree td) (NodeA x ti (leftTree td) (height td)) h
+semiRotateRight (NodeA x ti td h) = NodeA (element td) (NodeA x ti (leftTree td) (height td)) (rightTree td) h
 
 semiRotateLeft :: Ord a => AVL a -> AVL a
 semiRotateLeft EmptyA            = error "It makes no sense to semi rotate an EmptyA!"
 semiRotateLeft (NodeA x ti td h) = NodeA (element ti) (leftTree ti) (NodeA x (rightTree ti) td (height ti)) h
 
 bubbleUpLeft :: Ord a => a -> AVL a -> AVL a -> Int -> AVL a
-bubbleUpLeft _ EmptyA               _  _ = error "It makes no sense to bubble up an EmptyA!"
-bubbleUpLeft x (NodeA y ti' td' h') td h = NodeA y ti' (redo x td' td h') (h-1)
+bubbleUpLeft _ EmptyA              _  _ = error "It makes no sense to bubble up an EmptyA!"
+bubbleUpLeft x (NodeA y ti' td' _) td h = NodeA y ti' (redo x td' td) (h-1)
 
 bubbleUpRight :: Ord a => a -> AVL a -> AVL a -> Int -> AVL a
-bubbleUpRight _ _  EmptyA               _ = error "It makes no sense to bubble up an EmptyA!"
-bubbleUpRight x ti (NodeA y ti' td' h') h = NodeA y (redo x ti ti' h') td' (h-1)
+bubbleUpRight _ _  EmptyA              _ = error "It makes no sense to bubble up an EmptyA!"
+bubbleUpRight x ti (NodeA y ti' td' _) h = NodeA y (redo x ti ti') td' (h-1)
 
-redo :: Ord a => a -> AVL a -> AVL a -> Int -> AVL a
-redo x t1 t2 h = NodeA x t1 t2 (h-1)
+redo :: Ord a => a -> AVL a -> AVL a -> AVL a
+redo x t1 t2 = NodeA x t1 t2 (calculateHeight t1 t2)
 
 diff :: Ord a => AVL a -> Int
 diff t = abs ((height . leftTree) t - (height . rightTree) t)
